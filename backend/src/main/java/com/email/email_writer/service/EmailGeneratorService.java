@@ -25,9 +25,9 @@ public class EmailGeneratorService {
     }
 
     public String generateEmailReply(EmailRequest emailRequest){
-        //Build the prompt
+
         String prompt =buildPrompt(emailRequest);
-        //craft a request
+
         Map<String , Object> requestBody=Map.of(
                 "contents",new Object[]{
                         Map.of("parts",new Object[]{
@@ -38,12 +38,11 @@ public class EmailGeneratorService {
         //do request and get response
         String response=webClient.post()
                 .uri(geminiAPIUrl +geminiAPIKey)
-                .header("Content-Typr","application/json")
+                .header("Content-Type","application/json")
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        //extract response and return
         return extractResponseContent(response);
     }
 
