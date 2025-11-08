@@ -7,12 +7,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class EmailGeneratorService {
-    private final WebClient webClient;
 
+    private final WebClient webClient;
 
     @Value("${gemini.api.url}")
     private String geminiAPIUrl;
@@ -24,33 +25,40 @@ public class EmailGeneratorService {
         this.webClient = webClientBuilder.build();
     }
 
-    public String generateEmailReply(EmailRequest emailRequest){
+    public String generateEmailReply(EmailRequest emailRequest) {
+        String prompt = buildPrompt(emailRequest);
 
-        String prompt =buildPrompt(emailRequest);
-
-        Map<String , Object> requestBody=Map.of(
-                "contents",new Object[]{
-                        Map.of("parts",new Object[]{
-                                Map.of("text",prompt)
-                        })
-                }
+        Map<String, Object> requestBody = Map.of(
+                "contents", List.of(
+                        Map.of("parts", List.of(
+                                Map.of("text", prompt)
+                        ))
+                )
         );
-        //do request and get response
-        String response=webClient.post()
-                .uri(geminiAPIUrl +geminiAPIKey)
-                .header("Content-Type","application/json")
-                .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        return extractResponseContent(response);
+
+        try {
+            String response = webClient.post()
+                    .uri(geminiAPIUrl + geminiAPIKey)
+                    .header("Content-Type", "application/json")
+                    .bodyValue(requestBody)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            return extractResponseContent(response);
+
+        } catch (Exception e) {
+            return "Error contacting Gemini API: " + e.getMessage();
+        }
     }
 
     private String extractResponseContent(String response) {
-        try{
-            ObjectMapper mapper=new ObjectMapper();
-            JsonNode rootNode=mapper.readTree(response);
-            return rootNode.path("candidates")
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(response);
+
+            return rootNode
+                    .path("candidates")
                     .get(0)
                     .path("content")
                     .path("parts")
@@ -59,17 +67,22 @@ public class EmailGeneratorService {
                     .asText();
 
         } catch (Exception e) {
-            return "error processing request: "+e.getMessage();
+            return "Error while parsing model response: " + e.getMessage();
         }
     }
 
     private String buildPrompt(EmailRequest emailRequest) {
-        StringBuilder prompt=new StringBuilder();
-        prompt.append("Generate a proffesional email reply for the following email content.please don't generate a subject line ");
-        if (emailRequest.getTone()!=null && !emailRequest.getTone().isEmpty()){
-            prompt.append("use a ").append(emailRequest.getTone()).append("tone.");
+        StringBuilder prompt = new StringBuilder();
+
+        prompt.append("Generate a professional email reply for the following message. ");
+        prompt.append("Do not add a subject line. ");
+
+        if (emailRequest.getTone() != null && !emailRequest.getTone().isEmpty()) {
+            prompt.append("Use a ").append(emailRequest.getTone()).append(" tone. ");
         }
-        prompt.append("\n original email: \n").append(emailRequest.getEmailContent());
+
+        prompt.append("\nOriginal message:\n").append(emailRequest.getEmailContent());
+
         return prompt.toString();
     }
 }
