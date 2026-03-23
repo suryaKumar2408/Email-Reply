@@ -1,0 +1,99 @@
+.how-it-works {
+    padding: var(--space-24) 0;
+    position: relative;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-8);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    position: relative;
+}
+
+/* Connecting line */
+.steps-container::before {
+    content: '';
+    position: absolute;
+    top: 44px;
+    left: calc(16.66% + 28px);
+    right: calc(16.66% + 28px);
+    height: 2px;
+    background: linear-gradient(90deg,
+            var(--accent-1),
+            var(--accent-2),
+            var(--accent-3));
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.step-card {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.step-number {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 2px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
+    font-weight: 800;
+    margin: 0 auto var(--space-6);
+    position: relative;
+    transition: var(--transition-base);
+}
+
+.step-card:nth-child(1) .step-number {
+    background: rgba(108, 99, 255, 0.12);
+    border-color: rgba(108, 99, 255, 0.3);
+    color: var(--accent-1);
+}
+
+.step-card:nth-child(2) .step-number {
+    background: rgba(168, 85, 247, 0.12);
+    border-color: rgba(168, 85, 247, 0.3);
+    color: var(--accent-2);
+}
+
+.step-card:nth-child(3) .step-number {
+    background: rgba(236, 72, 153, 0.12);
+    border-color: rgba(236, 72, 153, 0.3);
+    color: var(--accent-3);
+}
+
+.step-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+}
+
+.step-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+}
+
+.step-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .steps-container {
+        flex-direction: column;
+        gap: var(--space-8);
+    }
+
+    .steps-container::before {
+        display: none;
+    }
+}

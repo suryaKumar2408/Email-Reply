@@ -1,0 +1,174 @@
+.generator-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(80px + var(--space-8)) var(--space-6) var(--space-8);
+}
+
+.generator-card {
+    width: 100%;
+    max-width: 720px;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-12);
+    position: relative;
+    overflow: hidden;
+}
+
+.generator-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-gradient);
+}
+
+.generator-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.generator-header h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    margin-bottom: var(--space-2);
+}
+
+.generator-header p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+}
+
+/* Custom MUI overrides for dark theme */
+.generator-card .MuiTextField-root,
+.generator-card .MuiFormControl-root {
+    margin-bottom: var(--space-4);
+}
+
+.generator-card .MuiOutlinedInput-root {
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+}
+
+.generator-card .MuiOutlinedInput-root fieldset {
+    border-color: var(--glass-border);
+    transition: var(--transition-fast);
+}
+
+.generator-card .MuiOutlinedInput-root:hover fieldset {
+    border-color: rgba(108, 99, 255, 0.4);
+}
+
+.generator-card .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: var(--accent-1);
+    border-width: 2px;
+}
+
+.generator-card .MuiInputLabel-root {
+    color: var(--text-muted);
+    font-family: var(--font-family);
+}
+
+.generator-card .MuiInputLabel-root.Mui-focused {
+    color: var(--accent-1);
+}
+
+.generator-card .MuiSelect-icon {
+    color: var(--text-muted);
+}
+
+.generate-btn {
+    width: 100%;
+    padding: var(--space-4) !important;
+    background: var(--accent-gradient) !important;
+    border: none !important;
+    border-radius: var(--radius-md) !important;
+    color: white !important;
+    font-family: var(--font-family) !important;
+    font-size: var(--font-size-lg) !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: var(--transition-base) !important;
+    text-transform: none !important;
+}
+
+.generate-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(108, 99, 255, 0.4) !important;
+}
+
+.generate-btn:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed;
+}
+
+/* Output section */
+.output-section {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--glass-border);
+}
+
+.output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.output-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: rgba(108, 99, 255, 0.12);
+    border: 1px solid rgba(108, 99, 255, 0.2);
+    border-radius: var(--radius-full);
+    color: var(--accent-1);
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.copy-btn:hover {
+    background: rgba(108, 99, 255, 0.2);
+}
+
+.copy-btn.copied {
+    background: rgba(34, 197, 94, 0.12);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: var(--success);
+}
+
+.error-text {
+    color: var(--error);
+    font-size: var(--font-size-sm);
+    margin-top: var(--space-2);
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .generator-card {
+        padding: var(--space-6);
+    }
+
+    .generator-header h1 {
+        font-size: var(--font-size-2xl);
+    }
+}
