@@ -60,7 +60,7 @@ function GeneratorPage() {
                 >
                     <div className="generator-header">
                         <h1>
-                            <span className="gradient-text">✉️ Email Reply Generator</span>
+                            <span className="gradient-text">✨ Email Reply Generator</span>
                         </h1>
                         <p>Paste the email you received and let AI craft the perfect reply.</p>
                     </div>
